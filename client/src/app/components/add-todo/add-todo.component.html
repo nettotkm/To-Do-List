@@ -1,0 +1,53 @@
+<div>
+  <form (ngSubmit)="saveTodo()" class="submit-form" #todoForm="ngForm">
+    <div *ngIf="!submitted">
+      <div class="form-group">
+        <label for="description">Descrição da tarefa</label>
+        <input class="form-control" id="description" required [(ngModel)]="todo.description" name="description"
+          [ngClass]="{ 'is-invalid': description.touched&& description.invalid, 'is-valid': !description.invalid}"
+          #description="ngModel" />
+        <div *ngIf="description.invalid && (description.dirty || description.touched)" class="invalid-feedback">
+          <div *ngIf="description.errors?.required">
+            Descrição da tarefa é obrigatório.
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="owner">Nome do responsável</label>
+        <input class="form-control" id="owner" required [(ngModel)]="todo.owner" name="owner"
+          [ngClass]="{ 'is-invalid': owner.touched&& owner.invalid, 'is-valid': !owner.invalid }" #owner="ngModel" />
+        <div *ngIf="owner.invalid && (owner.dirty || owner.touched)" class="invalid-feedback">
+          <div *ngIf="owner.errors?.required">
+            Nome do responsável é obrigatório.
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="email">E-mail</label>
+        <input class="form-control" id="email" required appEmailValidator [(ngModel)]="todo.email" name="email"
+          (onKeyUp)="typingInEmail()"
+          [ngClass]="{ 'is-invalid': email.touched && (email.errors?.required || email.errors?.invalidFormat ), 'is-valid': !(email.errors?.required || email.errors?.invalidFormat )}"
+          #email="ngModel" [ngModelOptions]="{updateOn: 'blur'}" />
+        <div class="valid-feedback" *ngIf="email.errors?.invalidFormat == false && email.errors?.didYouMean">
+          Você quis dizer {{ email.errors?.didYouMean }} ?
+        </div>
+        <div *ngIf="(email.errors?.required || email.errors?.invalidFormat ) && (email.dirty || email.touched)"
+          class="invalid-feedback">
+          <div *ngIf="email.errors?.required">
+            Email é obrigatório.
+          </div>
+
+          <div *ngIf="email.errors?.invalidFormat">
+            Email é inválido.
+          </div>
+        </div>
+      </div>
+
+
+      <button
+        [disabled]="typing || owner.errors?.required || description.errors?.required || email.errors?.required || email.errors?.invalidFormat"
+        class="btn btn-success">Criar Tarefa</button>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,29 @@
+version: "3.9"
+services:
+  postgres:
+    image: "postgres"
+    environment:
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - 5432:5432
+    volumes:
+      - ./database:/docker-entrypoint-initdb.d
+  node:
+    image: "node"
+    ports:
+      - 8080:8080
+    command: node /app/server.js
+    volumes:
+      - ./server:/app
+    depends_on:
+      - postgres
+  angular:
+    image: "node"
+    working_dir: /app
+    ports:
+      - 4200:4200
+    command: npm run start
+    volumes:
+      - ./client:/app
+    links:
+      - node
