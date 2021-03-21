@@ -14,3 +14,5 @@ rodar em outra aba do terminal:
 ```bash
   docker-compose up
 ```
+
+Acesse a aplicação no endereço: http://localhost:4200
