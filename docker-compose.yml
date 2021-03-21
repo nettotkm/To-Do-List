@@ -10,6 +10,7 @@ services:
       - ./database:/docker-entrypoint-initdb.d
   node:
     build: "./server"
+    image: todolist:server
     ports:
       - 8080:8080
     command: node /app/server.js
@@ -19,6 +20,7 @@ services:
       - postgres
   angular:
     build: "./client"
+    image: todolist:client
     working_dir: /app
     ports:
       - 4200:4200
