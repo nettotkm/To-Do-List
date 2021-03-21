@@ -9,7 +9,7 @@ services:
     volumes:
       - ./database:/docker-entrypoint-initdb.d
   node:
-    image: "node"
+    build: "./server"
     ports:
       - 8080:8080
     command: node /app/server.js
@@ -18,7 +18,7 @@ services:
     depends_on:
       - postgres
   angular:
-    image: "node"
+    build: "./client"
     working_dir: /app
     ports:
       - 4200:4200
